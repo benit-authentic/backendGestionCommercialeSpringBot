@@ -540,7 +540,7 @@ Le fichier **[test-api.http](test-api.http)** contient tous les tests prêts à 
 
 ## 📝 Licence
 
-Projet privé - Tous droits réservés
+Ce projet est sous licence MIT - voir le fichier [LICENSE](LICENSE) pour plus de détails.
 
 ---
 
