@@ -1,5 +1,6 @@
 package cmdb.backend.gestioncommerciale.controllers;
 
+import cmdb.backend.gestioncommerciale.dtos.CommandeCreateDTO;
 import cmdb.backend.gestioncommerciale.entities.Commande;
 import cmdb.backend.gestioncommerciale.services.CommandeService;
 
@@ -17,10 +18,10 @@ public class CommandeController {
 
     private final CommandeService commandeService;
 
-    // Créer une commande
+    // Créer une commande avec DTO (utilise personneId)
     @PostMapping
-    public ResponseEntity<Commande> createCommande(@RequestBody Commande commande) {
-        Commande createdCommande = commandeService.createCommande(commande);
+    public ResponseEntity<Commande> createCommande(@RequestBody CommandeCreateDTO commandeDTO) {
+        Commande createdCommande = commandeService.createCommande(commandeDTO);
         return ResponseEntity.ok(createdCommande);
     }
 

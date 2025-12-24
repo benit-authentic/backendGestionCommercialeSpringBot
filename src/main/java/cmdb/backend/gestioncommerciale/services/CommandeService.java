@@ -4,10 +4,12 @@ package cmdb.backend.gestioncommerciale.services;
 import java.math.BigDecimal;
 import java.util.List;
 
+import cmdb.backend.gestioncommerciale.dtos.CommandeCreateDTO;
 import cmdb.backend.gestioncommerciale.entities.Commande;
 import cmdb.backend.gestioncommerciale.entities.EtatCommande;
 
 public interface CommandeService {
+    Commande createCommande(CommandeCreateDTO commandeDTO);        // Ajouter une commande depuis DTO
     Commande createCommande(Commande commande);                    // Ajouter une commande
     Commande updateCommande(Long id, Commande commande);           // Mettre à jour une commande
     Commande findCommandeById(Long id);                            // Trouver une commande par ID

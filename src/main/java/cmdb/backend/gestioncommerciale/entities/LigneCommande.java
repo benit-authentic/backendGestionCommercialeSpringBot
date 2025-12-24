@@ -2,6 +2,8 @@ package cmdb.backend.gestioncommerciale.entities;
 
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,6 +31,7 @@ public class LigneCommande {
     @JoinColumn(name = "produit_id", nullable = false)
     private Produit produit;
 
+    @JsonBackReference // Évite les références circulaires avec Commande
     @ManyToOne
     @JoinColumn(name = "commande_id", nullable = false)
     private Commande commande;

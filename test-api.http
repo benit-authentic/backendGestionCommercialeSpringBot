@@ -1,0 +1,349 @@
+### ========================================
+### Backend Gestion Commerciale - Tests API
+### ========================================
+
+@baseUrl = http://localhost:8080
+@contentType = application/json
+
+### ========================================
+### 1. CATÉGORIES
+### ========================================
+
+### Créer une catégorie
+POST {{baseUrl}}/api/categories
+Content-Type: {{contentType}}
+
+{
+  "nom": "Électronique",
+  "description": "Produits électroniques et informatiques"
+}
+
+### Créer une deuxième catégorie
+POST {{baseUrl}}/api/categories
+Content-Type: {{contentType}}
+
+{
+  "nom": "Mobilier",
+  "description": "Meubles de bureau et maison"
+}
+
+### Lister toutes les catégories
+GET {{baseUrl}}/api/categories
+
+### ========================================
+### 2. TVA
+### ========================================
+
+### Créer une TVA 20%
+POST {{baseUrl}}/api/tvas
+Content-Type: {{contentType}}
+
+{
+  "taux": 20.0
+}
+
+### Créer une TVA 5.5%
+POST {{baseUrl}}/api/tvas
+Content-Type: {{contentType}}
+
+{
+  "taux": 5.5
+}
+
+### Lister toutes les TVA
+GET {{baseUrl}}/api/tvas
+
+### ========================================
+### 3. PRODUITS
+### ========================================
+
+### Créer un produit (Laptop)
+POST {{baseUrl}}/api/produits
+Content-Type: {{contentType}}
+
+{
+  "nom": "Laptop Dell XPS 15",
+  "quantite": 10,
+  "quantiteAlert": 5,
+  "prixUnitaire": 1200.00,
+  "categorieId": 1,
+  "tvaId": 1
+}
+
+### Créer un produit (Souris)
+POST {{baseUrl}}/api/produits
+Content-Type: {{contentType}}
+
+{
+  "nom": "Souris Logitech MX Master",
+  "quantite": 25,
+  "quantiteAlert": 10,
+  "prixUnitaire": 99.99,
+  "categorieId": 1,
+  "tvaId": 1
+}
+
+### Créer un produit (Bureau)
+POST {{baseUrl}}/api/produits
+Content-Type: {{contentType}}
+
+{
+  "nom": "Bureau ergonomique",
+  "quantite": 5,
+  "quantiteAlert": 2,
+  "prixUnitaire": 450.00,
+  "categorieId": 2,
+  "tvaId": 1
+}
+
+### Lister tous les produits
+GET {{baseUrl}}/api/produits
+
+### Obtenir un produit par ID
+GET {{baseUrl}}/api/produits/1
+
+### Produits par catégorie
+GET {{baseUrl}}/api/produits/categorie/1
+
+### Produits avec alerte stock (quantité < 5)
+GET {{baseUrl}}/api/produits/alertes-quantite?quantiteAlert=5
+
+### Modifier un produit
+PUT {{baseUrl}}/api/produits/1
+Content-Type: {{contentType}}
+
+{
+  "nom": "Laptop Dell XPS 15 (modèle 2024)",
+  "quantite": 15,
+  "quantiteAlert": 5,
+  "prixUnitaire": 1350.00,
+  "categorieId": 1,
+  "tvaId": 1
+}
+
+### ========================================
+### 4. PERSONNES (Clients/Fournisseurs)
+### ========================================
+
+### Créer un client
+POST {{baseUrl}}/api/personnes/clients
+Content-Type: {{contentType}}
+
+{
+  "type": "CLIENT",
+  "nom": "Entreprise ABC",
+  "email": "contact@abc.com",
+  "telephone": "0123456789",
+  "adresse": "123 Rue de Paris",
+  "numCompte": "CLI-001"
+}
+
+### Créer un fournisseur
+POST {{baseUrl}}/api/personnes/fournisseurs
+Content-Type: {{contentType}}
+
+{
+  "type": "FOURNISSEUR",
+  "nom": "TechSupply SAS",
+  "email": "info@techsupply.com",
+  "telephone": "0987654321",
+  "adresse": "456 Avenue de Lyon",
+  "numCompte": "FOUR-001"
+}
+
+### Lister tous les clients
+GET {{baseUrl}}/api/personnes/clients
+
+### Lister tous les fournisseurs
+GET {{baseUrl}}/api/personnes/fournisseurs
+
+### Obtenir une personne par ID
+GET {{baseUrl}}/api/personnes/1
+
+### ========================================
+### 5. COMMANDES
+### ========================================
+
+### Créer une commande client (vente)
+POST {{baseUrl}}/api/commandes
+Content-Type: {{contentType}}
+
+{
+  "typeCommande": "VENTE",
+  "personneId": 1,
+  "ligneCommandes": [
+    {
+      "produitId": 1,
+      "quantite": 2
+    },
+    {
+      "produitId": 2,
+      "quantite": 3
+    }
+  ]
+}
+
+### Créer une commande fournisseur (achat)
+POST {{baseUrl}}/api/commandes
+Content-Type: {{contentType}}
+
+{
+  "typeCommande": "APPROVISIONNEMENT",
+  "personneId": 2,
+  "ligneCommandes": [
+    {
+      "produitId": 1,
+      "quantite": 10
+    }
+  ]
+}
+
+### Lister toutes les commandes
+GET {{baseUrl}}/api/commandes
+
+### Obtenir une commande par ID
+GET {{baseUrl}}/api/commandes/1
+
+### Commandes d'une personne
+GET {{baseUrl}}/api/commandes/personne/1
+
+### Commandes par état
+GET {{baseUrl}}/api/commandes/etat?etat=EN_ATTENTE
+
+### Total d'une commande
+GET {{baseUrl}}/api/commandes/1/total
+
+### Modifier l'état d'une commande
+PUT {{baseUrl}}/api/commandes/1
+Content-Type: {{contentType}}
+
+{
+  "etat": "TERMINÉE"
+}
+
+### ========================================
+### 6. FACTURES
+### ========================================
+
+### Générer une facture pour une commande
+POST {{baseUrl}}/api/factures/generate/1
+
+### Lister toutes les factures
+GET {{baseUrl}}/api/factures
+
+### Obtenir une facture par ID
+GET {{baseUrl}}/api/factures/1
+
+### Factures par état
+GET {{baseUrl}}/api/factures/etat?etat=NON_PAYÉE
+
+### Facture d'une commande
+GET {{baseUrl}}/api/factures/commande/1
+
+### Recalculer l'état d'une facture
+PATCH {{baseUrl}}/api/factures/1/recalculate
+
+### ========================================
+### 7. PAIEMENTS
+### ========================================
+
+### Créer un paiement en espèces
+POST {{baseUrl}}/api/paiements?factureId=1
+Content-Type: {{contentType}}
+
+{
+  "montant": 500.00,
+  "referenceComptable": "PAY-001"
+}
+
+### Créer un paiement par carte
+POST {{baseUrl}}/api/paiements/carte?factureId=1
+Content-Type: {{contentType}}
+
+{
+  "montant": 1000.00,
+  "referenceComptable": "PAY-002",
+  "numCarte": "4111111111111111",
+  "typeCarte": "VISA"
+}
+
+### Créer un paiement par chèque
+POST {{baseUrl}}/api/paiements/cheque?factureId=1
+Content-Type: {{contentType}}
+
+{
+  "montant": 799.97,
+  "referenceComptable": "PAY-003",
+  "numCheque": "CHQ-123456"
+}
+
+### Lister tous les paiements
+GET {{baseUrl}}/api/paiements
+
+### Paiements d'une facture
+GET {{baseUrl}}/api/paiements/facture/1
+
+### Annuler un paiement
+PUT {{baseUrl}}/api/paiements/annuler/1
+
+### ========================================
+### 8. FICHES DE STOCK
+### ========================================
+
+### Lister toutes les fiches de stock
+GET {{baseUrl}}/api/fiches-stock
+
+### Historique d'un produit
+GET {{baseUrl}}/api/fiches-stock/produit/1
+
+### Fiches par type de mouvement
+GET {{baseUrl}}/api/fiches-stock/mouvement?typeMouvement=ENTREE
+
+### Fiches par date
+GET {{baseUrl}}/api/fiches-stock/date?date=2025-12-24
+
+### ========================================
+### 9. UTILISATEURS & RÔLES
+### ========================================
+
+### Créer un rôle
+POST {{baseUrl}}/api/roles
+Content-Type: {{contentType}}
+
+{
+  "nom": "ADMIN",
+  "description": "Administrateur système"
+}
+
+### Créer un utilisateur
+POST {{baseUrl}}/api/utilisateurs
+Content-Type: {{contentType}}
+
+{
+  "username": "admin",
+  "password": "admin123",
+  "email": "admin@gestioncommerciale.com"
+}
+
+### Assigner un rôle à un utilisateur
+POST {{baseUrl}}/api/utilisateurs/roles?username=admin&roleNom=ADMIN
+Content-Type: {{contentType}}
+
+### Lister tous les utilisateurs
+GET {{baseUrl}}/api/utilisateurs
+
+### ========================================
+### NOTES D'UTILISATION
+### ========================================
+
+# 1. Assurez-vous que MySQL est lancé et que la base "gestion_commerciale" existe
+# 2. Lancez l'application : .\mvnw.cmd spring-boot:run
+# 3. Utilisez l'extension REST Client dans VS Code pour exécuter ces requêtes
+# 4. Cliquez sur "Send Request" au-dessus de chaque requête HTTP
+# 5. Les résultats s'affichent dans un panneau à droite
+
+# Ordre recommandé pour les tests :
+# 1. Catégories → 2. TVA → 3. Produits → 4. Personnes → 
+# 5. Commandes → 6. Factures → 7. Paiements
+
+### ========================================

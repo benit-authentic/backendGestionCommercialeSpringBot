@@ -24,7 +24,7 @@ public class CommandeResponseDTO {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    public class LigneCommandeResponseDTO {
+    public static class LigneCommandeResponseDTO {
         private Long id;             // ID de la ligne de commande
         private Long produitId;      // ID du produit
         private String produitNom;   // Nom du produit

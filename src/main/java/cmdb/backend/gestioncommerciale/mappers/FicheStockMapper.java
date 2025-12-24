@@ -15,6 +15,6 @@ public interface FicheStockMapper {
     FicheStockDTO toFicheStockDTO(FicheStock ficheStock);
 
     @Mapping(source = "produitId", target = "produit.id")         // Associe le produit par ID
-    @Mapping(source = "personneId", target = "personne.id")       // Associe la personne par ID
+    @Mapping(target = "personne", ignore = true)                   // Géré par le service (abstract class)
     FicheStock toFicheStock(FicheStockDTO ficheStockDTO);
 }

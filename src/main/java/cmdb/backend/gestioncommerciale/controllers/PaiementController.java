@@ -16,10 +16,10 @@ public class PaiementController {
 
     private final PaiementService paiementService;
 
-    // Enregistrer un paiement (type générique)
+    // Enregistrer un paiement en espèces
     @PostMapping
-    public ResponseEntity<PaiementEspece> enregistrerPaiement(
-            @RequestBody Paiement paiementEspece,
+    public ResponseEntity<PaiementEspece> enregistrerPaiementEspece(
+            @RequestBody PaiementEspece paiementEspece,
             @RequestParam Long factureId) {
         PaiementEspece savedPaiement = (PaiementEspece) paiementService.enregistrerPaiement(paiementEspece, factureId);
         return ResponseEntity.ok(savedPaiement);
@@ -50,10 +50,16 @@ public class PaiementController {
         return ResponseEntity.ok(paiements);
     }
 
-    // Récupérer les paiements par statut
+    // Récupérer tous les paiements ou filtrer par statut
     @GetMapping
-    public ResponseEntity<List<Paiement>> getPaiementsByStatut(@RequestParam String statut) {
-        List<Paiement> paiements = paiementService.getPaiementsByStatut(statut);
+    public ResponseEntity<List<Paiement>> getPaiements(
+            @RequestParam(required = false) String statut) {
+        List<Paiement> paiements;
+        if (statut != null && !statut.isEmpty()) {
+            paiements = paiementService.getPaiementsByStatut(statut);
+        } else {
+            paiements = paiementService.getAllPaiements();
+        }
         return ResponseEntity.ok(paiements);
     }
 

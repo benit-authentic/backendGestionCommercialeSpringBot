@@ -58,6 +58,12 @@ public class PaiementServiceImpl implements PaiementService {
         factureRepository.save(facture);
     }
 
+    // Récupérer tous les paiements
+    @Override
+    public List<Paiement> getAllPaiements() {
+        return paiementRepository.findAll();
+    }
+
     // Récupérer les paiements d'une facture
     @Override
     public List<Paiement> getPaiementsByFacture(Long factureId) {

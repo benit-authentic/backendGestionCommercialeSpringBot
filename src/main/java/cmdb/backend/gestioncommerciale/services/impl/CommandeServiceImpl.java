@@ -1,5 +1,6 @@
 package cmdb.backend.gestioncommerciale.services.impl;
 
+import cmdb.backend.gestioncommerciale.dtos.CommandeCreateDTO;
 import cmdb.backend.gestioncommerciale.entities.*;
 import cmdb.backend.gestioncommerciale.repositories.CommandeRepository;
 import cmdb.backend.gestioncommerciale.repositories.PersonneRepository;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Transactional
@@ -22,6 +24,38 @@ public class CommandeServiceImpl implements CommandeService {
     private final FicheStockServiceImpl ficheStockService;
     private final ProduitRepository produitRepository;
     private final PersonneRepository<Personne> personneRepository;
+
+    @Transactional
+    @Override
+    public Commande createCommande(CommandeCreateDTO commandeDTO) {
+        // Récupérer la personne par ID (pas besoin du type dans le JSON!)
+        Personne personne = personneRepository.findById(commandeDTO.getPersonneId())
+            .orElseThrow(() -> new IllegalArgumentException("Personne introuvable avec l'ID : " + commandeDTO.getPersonneId()));
+
+        // Créer la commande
+        Commande commande = new Commande();
+        commande.setTypeCommande(TypeCommande.valueOf(commandeDTO.getTypeCommande()));
+        commande.setPersonne(personne);
+        commande.setDateCommande(LocalDateTime.now());
+        
+        // Créer les lignes de commande
+        List<LigneCommande> lignes = new ArrayList<>();
+        for (CommandeCreateDTO.LigneCommandeCreateDTO ligneDTO : commandeDTO.getLigneCommandes()) {
+            Produit produit = produitRepository.findById(ligneDTO.getProduitId())
+                .orElseThrow(() -> new IllegalArgumentException("Produit introuvable avec l'ID : " + ligneDTO.getProduitId()));
+            
+            LigneCommande ligne = new LigneCommande();
+            ligne.setProduit(produit);
+            ligne.setQuantite(ligneDTO.getQuantite());
+            ligne.setPrixUnitaire(produit.getPrixUnitaire());
+            ligne.setCommande(commande);
+            lignes.add(ligne);
+        }
+        commande.setLigneCommandes(lignes);
+        
+        // Appeler la méthode existante
+        return createCommande(commande);
+    }
 
     @Transactional
     @Override
@@ -58,8 +92,10 @@ public class CommandeServiceImpl implements CommandeService {
     public Commande updateCommande(Long id, Commande commande) {
         Commande existingCommande = findCommandeById(id);
 
-        existingCommande.setEtat(commande.getEtat());
-        existingCommande.setPersonne(commande.getPersonne());
+        // Ne mettre à jour que l'état (personne ne doit pas être modifiée)
+        if (commande.getEtat() != null) {
+            existingCommande.setEtat(commande.getEtat());
+        }
 
         return commandeRepository.save(existingCommande);
     }
@@ -170,6 +206,12 @@ public class CommandeServiceImpl implements CommandeService {
 
     @Override
     public List<Commande> findCommandesByEtat(String etat) {
-        return commandeRepository.findByEtat(etat);
+        try {
+            EtatCommande etatEnum = EtatCommande.valueOf(etat);
+            return commandeRepository.findByEtat(etatEnum);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("État de commande invalide : " + etat + 
+                ". Valeurs acceptées : EN_ATTENTE, TERMINÉE, ANNULÉE");
+        }
     }
 }

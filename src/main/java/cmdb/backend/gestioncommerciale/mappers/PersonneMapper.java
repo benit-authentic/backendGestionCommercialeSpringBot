@@ -11,9 +11,17 @@ import org.mapstruct.Mapping;
 public interface PersonneMapper {
 
     // Conversion de Personne (Client ou Fournisseur) vers PersonneDTO
-    @Mapping(source = "commandes", target = "commandes")
-    @Mapping(source = "TYPE_PERSONNE", target = "typePersonne") // Mappe le type discriminant
+    @Mapping(target = "typePersonne", expression = "java(getTypePersonne(personne))")
     PersonneDTO toPersonneDTO(Personne personne);
+    
+    default String getTypePersonne(Personne personne) {
+        if (personne instanceof Client) {
+            return "CLIENT";
+        } else if (personne instanceof Fournisseur) {
+            return "FOURNISSEUR";
+        }
+        return "INCONNU";
+    }
 
     // Conversion de PersonneDTO vers Personne (Client ou Fournisseur)
     default Personne toPersonne(PersonneDTO personneDTO) {
@@ -26,6 +34,9 @@ public interface PersonneMapper {
     }
 
     // Méthodes spécifiques pour chaque type
+    @Mapping(target = "commandes", ignore = true)
     Client toClient(PersonneDTO personneDTO);
+    
+    @Mapping(target = "commandes", ignore = true)
     Fournisseur toFournisseur(PersonneDTO personneDTO);
 }

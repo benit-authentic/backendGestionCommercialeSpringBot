@@ -15,6 +15,7 @@ import cmdb.backend.gestioncommerciale.entities.PaiementEspece;
 public interface PaiementMapper {
 	
 	@Mapping(target = "typePaiement", expression = "java(getTypePaiement(paiement))")
+    @Mapping(source = "facture.id", target = "factureId")
     PaiementDTO toPaiementDTO(Paiement paiement);
     
     default String getTypePaiement(Paiement paiement) {
@@ -28,10 +29,14 @@ public interface PaiementMapper {
         return "Inconnu";
     }
 
-    @Mapping(target = "numCarte", source = "paiementCarte.numCarte")
-    @Mapping(target = "typeCarte", source = "paiementCarte.typeCarte")
+    @Mapping(source = "facture.id", target = "factureId")
+    @Mapping(target = "typePaiement", constant = "Carte")
+    @Mapping(target = "numCarte", source = "numCarte")
+    @Mapping(target = "typeCarte", source = "typeCarte")
     PaiementCarteDTO toPaiementCarteDTO(PaiementCarte paiementCarte);
 
-    @Mapping(target = "numCheque", source = "paiementCheque.numCheque")
+    @Mapping(source = "facture.id", target = "factureId")
+    @Mapping(target = "typePaiement", constant = "Cheque")
+    @Mapping(target = "numCheque", source = "numCheque")
     PaiementChequeDTO toPaiementChequeDTO(PaiementCheque paiementCheque);
 }

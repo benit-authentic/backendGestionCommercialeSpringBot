@@ -126,7 +126,13 @@ public class FactureServiceImpl implements FactureService {
             throw new IllegalArgumentException("L'état de la facture ne peut pas être null ou vide.");
         }
 
-        return factureRepository.findByEtat(etat);
+        try {
+            EtatFacture etatEnum = EtatFacture.valueOf(etat);
+            return factureRepository.findByEtat(etatEnum);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("État de facture invalide : " + etat + 
+                ". Valeurs acceptées : NON_PAYÉE, PAYÉE_PARTIELLEMENT, PAYÉE_TOTALEMENT, ANNULÉE");
+        }
     }
 
     @Override

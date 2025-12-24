@@ -19,7 +19,7 @@ public class CommandeCreateDTO {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    public class LigneCommandeCreateDTO {
+    public static class LigneCommandeCreateDTO {
         private Long produitId;      // ID du produit
         private int quantite;        // Quantité commandée
     }
