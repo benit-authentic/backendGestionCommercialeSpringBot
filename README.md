@@ -1,5 +1,19 @@
 # 🏪 Backend Gestion Commerciale
 
+<div align="center">
+
+![Java](https://img.shields.io/badge/Java-21-orange?style=for-the-badge&logo=openjdk&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.4.0-brightgreen?style=for-the-badge&logo=spring&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-8.0-blue?style=for-the-badge&logo=mysql&logoColor=white)
+![Maven](https://img.shields.io/badge/Maven-3.6+-red?style=for-the-badge&logo=apache-maven&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)
+![Version](https://img.shields.io/badge/Version-0.0.1--SNAPSHOT-blue?style=for-the-badge)
+
+</div>
+
+---
+
 ## 📋 Description
 
 Application backend de gestion commerciale développée avec Spring Boot, permettant de gérer l'ensemble des opérations commerciales d'une entreprise : ventes, achats, facturation, paiements, gestion des stocks et comptabilité.
@@ -538,18 +552,33 @@ Le fichier **[test-api.http](test-api.http)** contient tous les tests prêts à 
 
 ---
 
-## 📝 Licence
+## � Licence
 
-Ce projet est sous licence MIT - voir le fichier [LICENSE](LICENSE) pour plus de détails.
+Ce projet est sous licence **MIT** - voir le fichier [LICENSE](./LICENSE) pour plus de détails.
+
+### En résumé
+- ✅ Libre d'utiliser, modifier et distribuer
+- ✅ Usage commercial autorisé  
+- ✅ Aucune garantie fournie
+- ⚠️ Obligation de conserver le copyright
 
 ---
 
-## ✉️ Contact
+## 👨‍💻 Auteur
 
-Pour toute question ou contribution, contactez l'équipe de développement.
+**Bénit EDOUH-SEWA**  
+*Développeur Full-Stack Web & Mobile*
+
+- 🌐 GitHub: [@benit-authentic](https://github.com/benit-authentic)  
+- 💼 LinkedIn: [Bénit EDOUH-SEWA](https://linkedin.com/in/bénit-edouh-sewa-797b14268)  
+- 📧 Email: [benitedouhsewa@gmail.com](mailto:benitedouhsewa@gmail.com)
 
 ---
 
-**Version** : 0.0.1-SNAPSHOT  
-**Dernière mise à jour** : Décembre 2025  
-**Développé avec** : ☕ Java 21 & 🍃 Spring Boot 3.4.0
+<div align="center">
+
+**© 2025 • BBA - Bénit Boss Authentic**
+
+*Made with ❤️ using Spring Boot + Java*
+
+</div>
